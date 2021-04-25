@@ -1,5 +1,11 @@
 # Unity_gRPC for Windows
 
+# gRPC
+
+gRPC is a modern open source high performance Remote Procedure Call (RPC) framework that can run in any environment.
+It can efficiently connect services in and across data centers with pluggable support for load balancing, tracing, health checking and authentication.
+It is also applicable in last mile of distributed computing to connect devices, mobile applications and browsers to backend services.
+
 ## Setup
 1. .NET 4.x
 	- In Unity3d, got to Edit > Project Setting > Player > Configuration > Scripting Runtime Version, change it to **.Net 4.x**
