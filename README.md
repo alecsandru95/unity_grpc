@@ -1,24 +1,24 @@
-# Unity_gRPC
+# Unity_gRPC for Windows
 
 ## Setup
 1. .NET 4.x
-	- in Unity3d, got to Edit > Project Setting > Player > Configuration > Scripting Runtime Version, change it to .Net 4.x
+	- In Unity3d, got to Edit > Project Setting > Player > Configuration > Scripting Runtime Version, change it to **.Net 4.x**
 2. grpc_unity_package
-	- go to https://packages.grpc.io/
-	- select the latest build Id
-	- select grpc_unity_package.VERSION.zip from the C# section
-	- extract the archive
-	- copy the Plugins folder in your unity Assets folder (Assets/Plugins)
+	- Go to https://packages.grpc.io/
+	- Select the latest **Build Id**
+	- Select grpc_unity_package.*VERSION*.zip from the **C#** section
+	- Extract the archive
+	- Copy the **Plugins** folder in your unity Assets folder (Assets/Plugins)
 3. grpc-protoc_windows
 	- go to https://packages.grpc.io/
-	- select the *SAME build Id as in step 2*
-	- select the wright grpc-protoc_windows archive from *gRPC protoc Plugins* section
+	- select the **SAME build Id as in step 2**0
+	- select the wright grpc-protoc_windows archive from **gRPC protoc Plugins** section (grpc-protoc_windows_*x64/x86-VERSION*.zip). Select x64 if you plan to build for x64 systems.
 	- extract the archive
-	- copy *protoc.exe* and *grpc_csharp_plugin.exe* to Assets/Plugins/Grpc.Tools directory
+	- copy **protoc.exe** and **grpc_csharp_plugin.exe** to Assets/Plugins/Grpc.Tools directory
 
 ## GrpcHelper.cs
 
-- It's a helper tool that compiles all the .proto files from the Assets folder.
+- It's a helper tool that compiles **ALL** the .proto files from the Assets folder.
 - In Unity, top menu, go to gRPC > Build proto files
 
 ## Documentation
