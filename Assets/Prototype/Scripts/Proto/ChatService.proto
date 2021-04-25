@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message MessageReceived{
+    bool Value = 1;
+}
+
+message Message{
+    string Value = 1;
+}
+
+service ChatService{
+	rpc SayHello(Message) returns (MessageReceived) {}
+}

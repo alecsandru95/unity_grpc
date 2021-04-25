@@ -3,8 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ClientSession : MonoBehaviour
+/// <summary>
+/// This class connects to the server
+/// </summary>
+public class ClientSession : ISession
 {
 	private Channel _Channel;
 
@@ -21,11 +25,28 @@ public class ClientSession : MonoBehaviour
 
 			var helloReply = _HelloServiceClient.SayHello(new HelloRequest { Message = "Hello server!" });
 
+			DontDestroyOnLoad(gameObject);
+			SceneManager.LoadScene("PlayScene");
+
 			Debug.Log($"reply from server : {helloReply.Message}");
 		}
 		catch (Exception exception)
 		{
 			Debug.Log(exception.Message);
+		}
+	}
+
+	public override string GetIP()
+	{
+		try
+		{
+			return _Channel.ResolvedTarget;
+		}
+		catch (Exception exception)
+		{
+			Debug.LogError(exception.Message);
+
+			return string.Empty;
 		}
 	}
 }
