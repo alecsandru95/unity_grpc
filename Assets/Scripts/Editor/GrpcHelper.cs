@@ -18,10 +18,17 @@ public static class GrpcHelper
 		{
 			var protoExe = Path.GetFullPath("Assets/Plugins/Grpc.Tools/protoc.exe");
 			var grpcPluginExe = Path.GetFullPath("Assets/Plugins/Grpc.Tools/grpc_csharp_plugin.exe");
+
+			if (File.Exists(protoExe) == false || File.Exists(grpcPluginExe) == false)
+			{
+				Debug.LogError($"Grpc Tool is missing, check [{protoExe}] and {grpcPluginExe}");
+				return;
+			}
+
 			var protoFileExtension = ".proto";
 
 			var protoFiles = Directory
-					.EnumerateFiles("Assets/Scripts/", "*.*", SearchOption.AllDirectories)
+					.EnumerateFiles("Assets/", "*.*", SearchOption.AllDirectories)
 					.Where(f => Path.GetExtension(f).ToLowerInvariant().Equals(protoFileExtension)).Select(p => Path.GetFullPath(p));
 
 			foreach (var protoFile in protoFiles)
@@ -33,8 +40,6 @@ public static class GrpcHelper
 
 				var arguments = $"/K {protoExe} -I {directory} --plugin=protoc-gen-grpc={grpcPluginExe} --csharp_out={directory} --grpc_out={directory} {protoFile}";
 
-				//Process.Start("cmd.exe", arguments);
-				
 				var processStartInfo = new ProcessStartInfo()
 				{
 					FileName = "cmd.exe",
