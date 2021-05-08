@@ -43,13 +43,22 @@ public static partial class ChatService
 
   static readonly grpc::Marshaller<global::Message> __Marshaller_Message = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Message.Parser));
   static readonly grpc::Marshaller<global::MessageReceived> __Marshaller_MessageReceived = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::MessageReceived.Parser));
+  static readonly grpc::Marshaller<global::LastMessageId> __Marshaller_LastMessageId = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::LastMessageId.Parser));
+  static readonly grpc::Marshaller<global::MessagePacket> __Marshaller_MessagePacket = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::MessagePacket.Parser));
 
-  static readonly grpc::Method<global::Message, global::MessageReceived> __Method_SayHello = new grpc::Method<global::Message, global::MessageReceived>(
+  static readonly grpc::Method<global::Message, global::MessageReceived> __Method_SendMessage = new grpc::Method<global::Message, global::MessageReceived>(
       grpc::MethodType.Unary,
       __ServiceName,
-      "SayHello",
+      "SendMessage",
       __Marshaller_Message,
       __Marshaller_MessageReceived);
+
+  static readonly grpc::Method<global::LastMessageId, global::MessagePacket> __Method_ChatStream = new grpc::Method<global::LastMessageId, global::MessagePacket>(
+      grpc::MethodType.ServerStreaming,
+      __ServiceName,
+      "ChatStream",
+      __Marshaller_LastMessageId,
+      __Marshaller_MessagePacket);
 
   /// <summary>Service descriptor</summary>
   public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -61,7 +70,12 @@ public static partial class ChatService
   [grpc::BindServiceMethod(typeof(ChatService), "BindService")]
   public abstract partial class ChatServiceBase
   {
-    public virtual global::System.Threading.Tasks.Task<global::MessageReceived> SayHello(global::Message request, grpc::ServerCallContext context)
+    public virtual global::System.Threading.Tasks.Task<global::MessageReceived> SendMessage(global::Message request, grpc::ServerCallContext context)
+    {
+      throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+    }
+
+    public virtual global::System.Threading.Tasks.Task ChatStream(global::LastMessageId request, grpc::IServerStreamWriter<global::MessagePacket> responseStream, grpc::ServerCallContext context)
     {
       throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
     }
@@ -91,21 +105,29 @@ public static partial class ChatService
     {
     }
 
-    public virtual global::MessageReceived SayHello(global::Message request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+    public virtual global::MessageReceived SendMessage(global::Message request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
     {
-      return SayHello(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      return SendMessage(request, new grpc::CallOptions(headers, deadline, cancellationToken));
     }
-    public virtual global::MessageReceived SayHello(global::Message request, grpc::CallOptions options)
+    public virtual global::MessageReceived SendMessage(global::Message request, grpc::CallOptions options)
     {
-      return CallInvoker.BlockingUnaryCall(__Method_SayHello, null, options, request);
+      return CallInvoker.BlockingUnaryCall(__Method_SendMessage, null, options, request);
     }
-    public virtual grpc::AsyncUnaryCall<global::MessageReceived> SayHelloAsync(global::Message request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+    public virtual grpc::AsyncUnaryCall<global::MessageReceived> SendMessageAsync(global::Message request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
     {
-      return SayHelloAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      return SendMessageAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
     }
-    public virtual grpc::AsyncUnaryCall<global::MessageReceived> SayHelloAsync(global::Message request, grpc::CallOptions options)
+    public virtual grpc::AsyncUnaryCall<global::MessageReceived> SendMessageAsync(global::Message request, grpc::CallOptions options)
     {
-      return CallInvoker.AsyncUnaryCall(__Method_SayHello, null, options, request);
+      return CallInvoker.AsyncUnaryCall(__Method_SendMessage, null, options, request);
+    }
+    public virtual grpc::AsyncServerStreamingCall<global::MessagePacket> ChatStream(global::LastMessageId request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+    {
+      return ChatStream(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+    }
+    public virtual grpc::AsyncServerStreamingCall<global::MessagePacket> ChatStream(global::LastMessageId request, grpc::CallOptions options)
+    {
+      return CallInvoker.AsyncServerStreamingCall(__Method_ChatStream, null, options, request);
     }
     /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
     protected override ChatServiceClient NewInstance(ClientBaseConfiguration configuration)
@@ -119,7 +141,8 @@ public static partial class ChatService
   public static grpc::ServerServiceDefinition BindService(ChatServiceBase serviceImpl)
   {
     return grpc::ServerServiceDefinition.CreateBuilder()
-        .AddMethod(__Method_SayHello, serviceImpl.SayHello).Build();
+        .AddMethod(__Method_SendMessage, serviceImpl.SendMessage)
+        .AddMethod(__Method_ChatStream, serviceImpl.ChatStream).Build();
   }
 
   /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -128,7 +151,8 @@ public static partial class ChatService
   /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
   public static void BindService(grpc::ServiceBinderBase serviceBinder, ChatServiceBase serviceImpl)
   {
-    serviceBinder.AddMethod(__Method_SayHello, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Message, global::MessageReceived>(serviceImpl.SayHello));
+    serviceBinder.AddMethod(__Method_SendMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Message, global::MessageReceived>(serviceImpl.SendMessage));
+    serviceBinder.AddMethod(__Method_ChatStream, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::LastMessageId, global::MessagePacket>(serviceImpl.ChatStream));
   }
 
 }

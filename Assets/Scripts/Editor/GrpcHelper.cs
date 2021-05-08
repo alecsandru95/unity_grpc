@@ -33,25 +33,33 @@ public static class GrpcHelper
 
 			foreach (var protoFile in protoFiles)
 			{
-				var protoFileName = Path.GetFileName(protoFile);
-				Debug.Log($"Compiling protofile : {protoFileName}");
-
-				var directory = Path.GetDirectoryName(protoFile);
-
-				var arguments = $"/K {protoExe} -I {directory} --plugin=protoc-gen-grpc={grpcPluginExe} --csharp_out={directory} --grpc_out={directory} {protoFile}";
-
-				var processStartInfo = new ProcessStartInfo()
+				try
 				{
-					FileName = "cmd.exe",
-					UseShellExecute = false,
-					Arguments = arguments,
-					RedirectStandardOutput = true,
-					CreateNoWindow = false
-				};
-				var rezultProcess = Process.Start(processStartInfo);
+					var protoFileName = Path.GetFileName(protoFile);
+					Debug.Log($"Compiling protofile : {protoFileName}");
 
-				var rezult = rezultProcess.StandardOutput.ReadToEnd();
-				rezultProcess.WaitForExit();
+					var directory = Path.GetDirectoryName(protoFile);
+
+					var arguments = $"/k {protoExe} -I \"{directory}\" --plugin=protoc-gen-grpc=\"{grpcPluginExe}\" --csharp_out=\"{directory}\" --grpc_out=\"{directory}\" \"{protoFile}\"";
+					Debug.Log(arguments);
+
+					var processStartInfo = new ProcessStartInfo()
+					{
+						FileName = "cmd.exe",
+						UseShellExecute = false,
+						Arguments = arguments,
+						RedirectStandardOutput = true,
+						RedirectStandardError = true,
+						CreateNoWindow = false
+					};
+					var rezultProcess = Process.Start(processStartInfo);
+
+					rezultProcess.WaitForExit();
+				}
+				catch (Exception exception)
+				{
+					Debug.LogError($"Exception on file : {protoFile}\n{exception.Message}");
+				}
 			}
 		}
 		catch (Exception exception)

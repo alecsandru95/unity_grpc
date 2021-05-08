@@ -26,6 +26,7 @@ It is also applicable in last mile of distributed computing to connect devices, 
 
 - It's a helper tool that compiles **ALL** the .proto files from the Assets folder.
 - In Unity, top menu, go to gRPC > Build proto files
+- **Doesn't support paths with spaces, windows cmd limitation**
 
 ## Documentation
 - https://developers.google.com/protocol-buffers/docs/proto3

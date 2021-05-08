@@ -5,9 +5,19 @@ message MessageReceived{
 }
 
 message Message{
-    string Value = 1;
+    int64 id = 1;
+    string Value = 2;
+}
+
+message MessagePacket{
+    repeated Message MessageCollection = 1;
+}
+
+message LastMessageId{
+    int64 id = 1;
 }
 
 service ChatService{
-	rpc SayHello(Message) returns (MessageReceived) {}
+	rpc SendMessage(Message) returns (MessageReceived) {}
+    rpc ChatStream(LastMessageId) returns (stream MessagePacket){}
 }
