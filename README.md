@@ -17,7 +17,7 @@ It is also applicable in last mile of distributed computing to connect devices, 
 	- Copy the **Plugins** folder in your unity Assets folder (Assets/Plugins)
 3. grpc-protoc_windows
 	- go to https://packages.grpc.io/
-	- select the **SAME build Id as in step 2**0
+	- select the **SAME build Id as in step 2
 	- select the wright grpc-protoc_windows archive from **gRPC protoc Plugins** section (grpc-protoc_windows_*x64/x86-VERSION*.zip). Select x64 if you plan to build for x64 systems.
 	- extract the archive
 	- copy **protoc.exe** and **grpc_csharp_plugin.exe** to Assets/Plugins/Grpc.Tools directory
